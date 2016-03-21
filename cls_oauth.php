@@ -32,14 +32,14 @@ class Oauth{
 
     //basic授权
     public function basicOauth($redirectUrl){
-        $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=$redirectUrl&response_type=code&scope=snsapi_base#wechat_redirect";
+        $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=".urlencode($redirectUrl)."&response_type=code&scope=snsapi_base#wechat_redirect";
         header('Location: '.$oauth);
         exit;
     }
 
     //userinfo授权
     public function userinfoOauth($redirectUrl){
-        $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=$redirectUrl&response_type=code&scope=snsapi_userinfo&state=reg#wechat_redirect";
+        $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=".urlencode($redirectUrl)."&response_type=code&scope=snsapi_userinfo&state=reg#wechat_redirect";
         header('Location: '.$oauth);
         exit;
     }
