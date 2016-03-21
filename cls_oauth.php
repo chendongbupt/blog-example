@@ -15,7 +15,7 @@ class Oauth{
     private $db;
     //从配置数据库中取appid appsecret
     function __construct($db){
-        $res = $db->getRow("select * from wxch_config where id=1");
+        $res = $db->getRow("select * from wechat_config ");  //表 wechat_config 存储了微信信息
         $this->appid = $res['appid'];
         $this->appsecret = $res['appsecret'];
         $this->globalToken = $res['access_token'];
@@ -31,14 +31,14 @@ class Oauth{
     }
 
     //basic授权
-    public function basicOauth($redirectUrl='http://www.816go.cn/miqi/mobile/user.php'){
+    public function basicOauth($redirectUrl){
         $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=$redirectUrl&response_type=code&scope=snsapi_base#wechat_redirect";
         header('Location: '.$oauth);
         exit;
     }
 
     //userinfo授权
-    public function userinfoOauth($redirectUrl='http://www.816go.cn/miqi/mobile/user.php'){
+    public function userinfoOauth($redirectUrl){
         $oauth = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$this->appid&redirect_uri=$redirectUrl&response_type=code&scope=snsapi_userinfo&state=reg#wechat_redirect";
         header('Location: '.$oauth);
         exit;
@@ -99,7 +99,7 @@ class Oauth{
         $curTime = time();
         if ($curTime - $this->dateline >= 7200 || $update == 1){
             $globalToken = $this->getGlobalToken();
-            $this->db->query("update wxch_config set access_token = '$globalToken[access_token]', dateline = $curTime where id=1");
+            $this->db->query("update wechat_config set access_token = '$globalToken[access_token]', dateline = $curTime");
             $this->globalToken = $globalToken['access_token'];
             $this->dateline = $curTime;
             return $globalToken['access_token'];
