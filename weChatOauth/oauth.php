@@ -44,13 +44,14 @@ $userinfo = array();
         // 根据 openid 查询， 如果SESSION 或者 数据库 中有 该openid， 直接登录
         //todo code
     }
-
+    else{
     // 该用户信息不存在
     // 处理-- 可以提示  -- 也可以再次授权取到信息并插入数据
     // $code需要新申请， 需要state变量避免陷入死循环
-    if ( !$code && $state == 'reg')  // state 可以自己设置，cls.php 文件设置的为 'reg'
-        $Oauth->userinfoOauth($curUrl);
+    	if ( !$code && $state == 'reg')  // state 可以自己设置，cls.php 文件设置的为 'reg'
+        	$Oauth->userinfoOauth($curUrl);
 
-    $userinfo = $Oauth->getUserinfoByCode($code);
+    	$userinfo = $Oauth->getUserinfoByCode($code);
+	}
 }
 ?>
